@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Alice Johnson",
+    "department": "Engineering",
+    "title": "Software Developer"
+  },
+  {
+    "id": 2,
+    "name": "Bob Smith",
+    "department": "Marketing",
+    "title": "Campaign Specialist"
+  },
+  {
+    "id": 3,
+    "name": "Charlie Brown",
+    "department": "Design",
+    "title": "UX Designer"
+  },
+  {
+    "id": 4,
+    "name": "Diana Prince",
+    "department": "Engineering",
+    "title": "Tech Lead"
+  }
+]
