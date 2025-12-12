@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Data Loader (Single File)</title>
+    
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 40px; 
+            background-color: #f4f7f9;
+        }
+        h1 { 
+            color: #2c3e50; 
+            border-bottom: 3px solid #3498db; 
+            padding-bottom: 10px;
+        }
+        #data-container { 
+            margin-top: 30px; 
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .data-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-left: 5px solid #3498db; /* Highlight bar */
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .data-card h2 { 
+            margin-top: 0; 
+            color: #e74c3c; 
+            font-size: 1.5em;
+        }
+        .data-card p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .loading-message, .error-message {
+            padding: 20px;
+            background-color: #f9f9e8;
+            border: 1px solid #e74c3c;
+            color: #c0392b;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Employee Data Loaded via JavaScript</h1>
+
+    <div id="data-container">
+        <p class="loading-message">Loading data...</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('data-container');
+            
+            // Function to fetch the JSON file
+            async function loadEmployeeData() {
+                try {
+                    // Use the Fetch API to request the external data.json file
+                    const response = await fetch('data.json');
+
+                    // Check if the HTTP status is OK (200-299)
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    // Parse the JSON data
+                    const data = await response.json();
+
+                    // Clear the loading message
+                    container.innerHTML = '';
+                    
+                    // Iterate over the array and create a card for each item
+                    data.forEach(employee => {
+                        const cardDiv = document.createElement('div');
+                        cardDiv.className = 'data-card';
+
+                        // Use template literals to construct the card's inner content
+                        cardDiv.innerHTML = `
+                            <h2>${employee.name}</h2>
+                            <p><strong>Title:</strong> ${employee.title}</p>
+                            <p><strong>Department:</strong> ${employee.department}</p>
+                            <p><strong>ID:</strong> ${employee.id}</p>
+                        `;
+
+                        // Append the new card to the main container
+                        container.appendChild(cardDiv);
+                    });
+
+                } catch (error) {
+                    // Display an error message if fetching fails
+                    console.error('Error fetching or processing JSON:', error);
+                    container.innerHTML = `
+                        <p class="error-message">
+                            Failed to load data. Ensure 'data.json' exists and you are running a local server.
+                            <br>Details: ${error.message}
+                        </p>
+                    `;
+                }
+            }
+
+            // Execute the data loading function when the page is ready
+            loadEmployeeData();
+        });
+    </script>
+
+</body>
+</html>
